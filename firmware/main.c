@@ -98,8 +98,8 @@ int main(void) {
 #if ENABLE_SERIAL_DEBUG
 // SD2 for serial debug output
   palSetPadMode(GPIOA, 3, PAL_MODE_ALTERNATE(7) | PAL_MODE_INPUT); // RX
-  palSetPadMode(GPIOA, 2, PAL_MODE_OUTPUT_PUSHPULL); // TX
-  palSetPadMode(GPIOA, 2, PAL_MODE_ALTERNATE(7)); // TX
+//  palSetPadMode(GPIOA, 2, PAL_MODE_OUTPUT_PUSHPULL); // TX
+//  palSetPadMode(GPIOA, 2, PAL_MODE_ALTERNATE(7)); // TX
 // 115200 baud
   static const SerialConfig sd2Cfg = {115200,
         0, 0, 0};
@@ -133,7 +133,7 @@ int main(void) {
   }
 
 #if ((BOARD_AXOLOTI_V03)||(BOARD_AXOLOTI_V05))
-  axoloti_control_init();
+//  axoloti_control_init();
 #endif
   ui_init();
 
@@ -164,6 +164,9 @@ int main(void) {
         LoadPatchStartFlash();
     }
   }
+
+  serial_dmx_init();
+
 
   while (1) {
     chThdSleepMilliseconds(1000);

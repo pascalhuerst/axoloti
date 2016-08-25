@@ -34,7 +34,7 @@
 extern int _vectors;
 
 #define AXOLOTICONTROL FALSE
-#define SERIALDEBUG TRUE
+#define SERIALDEBUG FALSE
 
 #if SERIALDEBUG
 #define DBGPRINTCHAR(x) sdPut(&SD2,x);   //chThdSleepMilliseconds(1);
@@ -123,7 +123,7 @@ int main(void) {
   watchdog_feed();
   configSDRAM();
 
-#ifdef SERIALDEBUG
+#if SERIALDEBUG
 // SD2 for serial debug output
   palSetPadMode(GPIOA, 3, PAL_MODE_ALTERNATE(7) | PAL_MODE_INPUT); // RX
   palSetPadMode(GPIOA, 2, PAL_MODE_OUTPUT_PUSHPULL); // TX

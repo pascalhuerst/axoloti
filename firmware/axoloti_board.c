@@ -53,8 +53,8 @@ void adc_configpads(void) {
   palSetPadMode(GPIOA, 0, PAL_MODE_INPUT_ANALOG);
   palSetPadMode(GPIOA, 1, PAL_MODE_INPUT_ANALOG);
 #ifndef ENABLE_SERIAL_DEBUG
-  palSetPadMode(GPIOA, 2, PAL_MODE_INPUT_ANALOG);
-  palSetPadMode(GPIOA, 3, PAL_MODE_INPUT_ANALOG);
+ // palSetPadMode(GPIOA, 2, PAL_MODE_INPUT_ANALOG);
+ // palSetPadMode(GPIOA, 3, PAL_MODE_INPUT_ANALOG);
 #endif
   palSetPadMode(GPIOA, 4, PAL_MODE_INPUT_ANALOG);
   palSetPadMode(GPIOA, 5, PAL_MODE_INPUT_ANALOG);
@@ -75,8 +75,8 @@ void adc_configpads(void) {
   palSetPadMode(GPIOA, 0, PAL_MODE_INPUT_ANALOG);
   palSetPadMode(GPIOA, 1, PAL_MODE_INPUT_ANALOG);
 #ifdef ENABLE_SERIAL_DEBUG
-  palSetPadMode(GPIOA, 2, PAL_MODE_INPUT_ANALOG);
-  palSetPadMode(GPIOA, 3, PAL_MODE_INPUT_ANALOG);
+//  palSetPadMode(GPIOA, 2, PAL_MODE_INPUT_ANALOG);
+//  palSetPadMode(GPIOA, 3, PAL_MODE_INPUT_ANALOG);
 #endif
   // skip GPIOA4: LRCLK
   // skip GPIOA5,GPIOA6,GPIOA7: accelerometer

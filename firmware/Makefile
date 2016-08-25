@@ -198,6 +198,7 @@ CSRC = $(PORTSRC) \
        ${FIRMWARE}/usbh_vendor.c \
        ${FIRMWARE}/usbh_conf.c \
        ${FIRMWARE}/serial_midi.c \
+       ${FIRMWARE}/serial_dmx.c \
        ${FIRMWARE}/bulk_usb.c \
        ${FIRMWARE}/midi_usb.c \
        ${FIRMWARE}/crc32.c \
