@@ -19,6 +19,8 @@
 #include "ch.h"
 #include "hal.h"
 #include "beat_detection.h"
+#include "chprintf.h"
+
 
 // -> mcuconf.h : PA0 TIM2_CH1
 static const ICUConfig icu_config = {
@@ -32,21 +34,32 @@ static const ICUConfig icu_config = {
 
 static ICUDriver icu_driver;
 static uint32_t dt[2];
-static mutex_t icu_driver_mutex;
 
-static THD_WORKING_AREA(wa_icu_driver_thread, 128);
-static THD_FUNCTION(icu_driver_thread, arg) {
+static Mutex icu_driver_mutex;
+static EventSource icu_trigger_event;
+
+static WORKING_AREA(wa_icu_driver_thread, 128);
+
+__attribute__((noreturn))
+static msg_t icu_driver_thread(void *arg) {
 
 	uint32_t time_diff;
+	EventListener icu_trigger_listener;
+	chEvtRegisterMask(&icu_trigger_event, &icu_trigger_listener, EVENT_MASK(1));
 
 	while (true) {
 		chMtxLock(&icu_driver_mutex);
 			time_diff = dt[0] - dt[1];
-		chMtxUnlock(&icu_driver_mutex);
+		chMtxUnlock();
 		// Do something
-		chThdSleep(TIME_INFINITE);
+
+		chEvtWaitOne(EVENT_MASK(1));
+		chprintf((BaseSequentialStream * )&SD2,"%s\n", __func__);
 	}
 }
+
+struct ICUConfig *beatdetection_config() { return &icu_config; }
+struct ICUDriver *beatdetection_driver() { return &icu_driver; }
 
 void init_beatdetection()
 {
@@ -55,9 +68,12 @@ void init_beatdetection()
 
 	chMtxInit(&icu_driver_mutex);
 
+	chEvtInit(&icu_trigger_event);
+
 	icuObjectInit(&icu_driver);
 	icuEnable(&icu_driver);
-	icuStart(&icu_driver, &icu_config);
+	chprintf((BaseSequentialStream * )&SD2,"%s\n", __func__);
+	chprintf((BaseSequentialStream * )&SD2,"%s\n", __func__);
 }
 
 void pulse_width_callback(ICUDriver *icu_driver)
@@ -65,19 +81,22 @@ void pulse_width_callback(ICUDriver *icu_driver)
 	chMtxLock(&icu_driver_mutex);
 	dt[1] = dt[0];
 	dt[0] = icuGetWidth(icu_driver);
-	chMtxUnlock(&icu_driver_mutex);
+	chMtxUnlock();
 
-	chThdResume(icu_driver_thread);
+	chprintf((BaseSequentialStream * )&SD2,"%s\n", __func__);
+	chEvtBroadcastI(&icu_trigger_event);
 }
 
 void periode_width_callback(ICUDriver *driver)
 {
 
+	chprintf((BaseSequentialStream * )&SD2,"%s\n", __func__);
 
 }
 
 void timer_overflow_callback(ICUDriver *driver)
 {
 
+	chprintf((BaseSequentialStream * )&SD2,"%s\n", __func__);
 
 }
